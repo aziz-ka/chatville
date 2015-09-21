@@ -1,0 +1,65 @@
+<!doctype html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>ChatCAT - Chatrooms</title>
+		<link rel="stylesheet" href="../css/chatroom.css">
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			$(function() {
+				var host = '{{config.host}}';
+				var socket = io.connect(host + '/rooms');
+
+				socket.on('connect', function() {
+					console.log('Connection Established !');
+				});
+
+				socket.on('roomUpdate', function(data) {
+					var rooms = JSON.parse(data);
+					listRooms(rooms);
+				});
+
+				$(document).on('click', '#create', function() {
+					var roomName = $('.new-room').val();
+					if(roomName !== '') {
+						socket.emit('newRoom', {roomName: roomName});
+						listRooms([{roomName: roomName}]);
+						$('.new-room').val('');
+					}
+				});
+
+				function listRooms(rooms) {
+					if(rooms.length === 1) {
+						var room = rooms[0].roomName;
+						var str = '<a href="room/' + room + '"><li>' + room + '</li></a>';
+						$(str).prependTo($(".room-list"));
+					} else {
+						$('.room-list').html('');
+						for(var i = 0; i < rooms.length; i++) {
+							var room = rooms[i].roomName;
+							var str = '<a href="room/' + room + '"><li>' + room + '</li></a>';
+							$('.room-list').prepend(str);
+						}
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div class="cr-container">
+			<h1 class="cr-title">ChatCAT</h1>
+			<div class="cr-userbox">
+				<img src="{{user.profilePic}}" class="user-pic">
+				<h3 class="user-name">{{user.name}} | <a href="/logout">Logout</a></h3>
+			</div>
+			<div class="cr-newroom">
+				<input type="text" class="new-room" autocomplete="off">
+				<button id="create">Create Room</button>
+			</div>
+			<div class="cr-roomlist">
+				<ul class="room-list"></ul>
+			</div>
+		</div>
+	</body>
+</html>

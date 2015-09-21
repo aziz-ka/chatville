@@ -1,0 +1,10 @@
+{
+  "url": "mongodb://localhost:27017/nodechat",
+  "secret": "asdfjkhewaifh35hbivdsjn34",
+  "fb": {
+    "appId": "1655146701396321",
+    "appSecret": "93e3b0e5b1f9edb8ee2b2f174ed33dfd",
+    "callbackURL": "http://chatville.herokuapp.com/auth/facebook/callback"
+  },
+  "host": "http://chatville.herokuapp.com"
+}
