@@ -17,7 +17,7 @@ module.exports = function (express, app, passport, config, chatRooms) {
   router.get("/chatrooms", secureAccess, function (req, res, next) {
     res.render("chatrooms", {
       title: "Chat Rooms",
-      user: req.user, /* req.user object is returned from facebook callback */
+      user: req.user, /* req.user object is stored in session */
       config: config
     });
   });

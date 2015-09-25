@@ -56,10 +56,5 @@ db.once("open", function() {
     console.log("running on port " + app.get("port"));
     console.log("environment: " + env);
   });
-
-  // app.listen(3000, function() {
-  //   console.log("running on port 3000");
-  //   console.log("environment: " + env);
-  // });
 });
 
